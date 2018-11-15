@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Lists</h1>
+
+<div class="row">
+  <% @lists.each do |list| %>
+    <div class="col-3">
+      <h4><%= list.name %></h4>
+    </div>
+  <% end %>
+</div>
+
+<br>
+
+<%= link_to 'New List', new_list_path %>
