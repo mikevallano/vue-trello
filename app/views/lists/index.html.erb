@@ -6,17 +6,7 @@
 
 <%= link_to 'New List', new_list_path %>
 
-  <p>Lists from html:</p>
-<div class="row">
-  <% @lists.each do |list| %>
-    <div class="col-3">
-      <h4><%= list.name %></h4>
-    </div>
-  <% end %>
-</div>
-
-
-  <lists></lists> <!-- lists is the name of the component included in the Vue object created in lists_vue.js -->
+<lists></lists> <!-- lists is the name of the component included in the Vue object created in lists_vue.js -->
 
 <%= tag.div id: :boards,
     data: { lists: @lists.to_json(include: :cards) } do %>
