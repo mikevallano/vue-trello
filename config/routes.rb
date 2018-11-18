@@ -5,5 +5,9 @@ Rails.application.routes.draw do
   get 'pages/about', as: :about
 
   resources :cards
-  resources :lists
+  resources :lists do
+    member do
+      patch :move
+    end
+  end
 end
