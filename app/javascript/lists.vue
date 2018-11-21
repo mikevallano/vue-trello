@@ -1,10 +1,10 @@
 <template>
-  <draggable v-model="lists" :options="{group: 'lists', animation: 800}" @end="listMoved" class="row dragArea">
+  <draggable v-model="lists" :options="{group: 'lists', animation: 1000}" @end="listMoved" class="row dragArea">
 <!--     defining group ensures the scope of what can be dragged. for example, lists can't be dragged to cards because cards are not in the group -->
     <div class='col-3' v-for="list in lists">
       <h4>{{list.name}}</h4>
 
-      <draggable v-model="list.cards" :options="{group: 'cards', animation: 800}" @change="cardMoved" class="dragArea" >
+      <draggable v-model="list.cards" :options="{group: 'cards', animation: 1000}" @change="cardMoved" class="dragArea" >
         <div v-for="(card, index) in list.cards" class="card card-body bg-light border-secondary mb-3">
           {{card.name}}
         </div>
@@ -43,20 +43,23 @@ export default {
       })
     },
     cardMoved: function (event) {
-      if (event.added === undefined) {return}
+      let evt = event.added || event.moved
+      if (evt === undefined) {return}
+
+      let element = evt.element
 
       let list_index = this.lists.findIndex((list) => {
         return list.cards.find(function(card) {
-          return card.id === event.added.element.id
+          return card.id === element.id
         })
       })
 
       let data = new FormData
       data.append("card[list_id]", this.lists[list_index].id)
-      data.append("card[position]", event.added.newIndex + 1)
+      data.append("card[position]", evt.newIndex + 1)
 
       Rails.ajax({
-        url: `/cards/${event.added.element.id}/move`,
+        url: `/cards/${element.id}/move`,
         type: 'PATCH',
         data: data,
         format: 'json'
