@@ -10,7 +10,7 @@
         </div>
       </draggable>
 
-      <textarea v-model="newCards[list.id]" class='form-control' placeholder="Add new card"></textarea>
+      <textarea v-model="newCards[list.id]" class='form-control' placeholder="Add new card to this list"></textarea>
       <button v-on:click="saveCard(list.id)" class='btn btn-dark btn-sm mt-1 save-card-btn'>Save</button>
     </div>
   </draggable>
