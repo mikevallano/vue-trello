@@ -4,8 +4,6 @@
 
 <h1>Lists</h1>
 
-<%= link_to 'New List', new_list_path %>
-
 <lists></lists> <!-- lists is the name of the component included in the Vue object created in lists_vue.js -->
 
 <%= tag.div id: :boards,
@@ -13,3 +11,8 @@
   {{testmessage}} <!-- this comes from the data of the Vue object created in lists_vue.js -->
 <% end %>
 
+
+<br/>
+<div class='mt-5'>
+  <%= link_to 'New List', new_list_path, class: 'btn btn-secondary' %>
+</div>

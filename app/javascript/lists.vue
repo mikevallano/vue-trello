@@ -1,15 +1,17 @@
 <template>
-  <draggable v-model="lists" :options="{group: 'lists'}" @end="listMoved" class="row dragArea">
+  <draggable v-model="lists" :options="{group: 'lists', animation: 800}" @end="listMoved" class="row dragArea">
 <!--     defining group ensures the scope of what can be dragged. for example, lists can't be dragged to cards because cards are not in the group -->
     <div class='col-3' v-for="list in lists">
       <h4>{{list.name}}</h4>
 
-      <div v-for="(card, index) in list.cards" class="card card-body mb-3">
-        {{card.name}}
-      </div>
+      <draggable v-model="list.cards" :options="{group: 'cards', animation: 800}" @change="cardMoved" class="dragArea" >
+        <div v-for="(card, index) in list.cards" class="card card-body bg-light border-secondary mb-3">
+          {{card.name}}
+        </div>
+      </draggable>
 
-      <textarea v-model="newCards[list.id]" class='form-control'></textarea>
-      <button v-on:click="saveCard(list.id)" class='btn btn-primary btn-sm'>Save</button>
+      <textarea v-model="newCards[list.id]" class='form-control' placeholder="Add new card"></textarea>
+      <button v-on:click="saveCard(list.id)" class='btn btn-dark btn-sm mt-1 save-card-btn'>Save</button>
     </div>
   </draggable>
 </template>
@@ -38,6 +40,26 @@ export default {
         data: data,
         format: 'json'
 
+      })
+    },
+    cardMoved: function (event) {
+      if (event.added === undefined) {return}
+
+      let list_index = this.lists.findIndex((list) => {
+        return list.cards.find(function(card) {
+          return card.id === event.added.element.id
+        })
+      })
+
+      let data = new FormData
+      data.append("card[list_id]", this.lists[list_index].id)
+      data.append("card[position]", event.added.newIndex + 1)
+
+      Rails.ajax({
+        url: `/cards/${event.added.element.id}/move`,
+        type: 'PATCH',
+        data: data,
+        format: 'json'
       })
     },
     saveCard: function (list_id){
