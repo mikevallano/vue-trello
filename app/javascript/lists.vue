@@ -1,7 +1,7 @@
 <template>
-  <draggable v-model="lists" :options="{group: 'lists', animation: 1000}" @end="listMoved" class="row dragArea">
+  <draggable v-model="lists" :options="{group: 'lists', animation: 1000}" @end="listMoved" class="board dragArea">
 <!--     defining group ensures the scope of what can be dragged. for example, lists can't be dragged to cards because cards are not in the group -->
-    <div class='col-3' v-for="list in lists">
+    <div class='list' v-for="list in lists">
       <h4>{{list.name}}</h4>
 
       <draggable v-model="list.cards" :options="{group: 'cards', animation: 1000}" @change="cardMoved" class="dragArea" >
@@ -87,7 +87,5 @@ export default {
 </script>
 
 <style scoped>
-  .dragArea {
-    min-height: 20px; /* to be able to see the draggable area*/
-  }
+
 </style>

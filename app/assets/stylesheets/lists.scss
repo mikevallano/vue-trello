@@ -1,3 +1,33 @@
 .save-card-btn {
   width: 100%;
 }
+
+.board {
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.list {
+  margin: 0 10px;
+  vertical-align: top;
+  width: 270px;
+  display: inline-block;
+}
+
+.dragArea {
+  min-height: 20px; /* to be able to see the draggable area*/
+}
+
+
+.card {
+  overflow: hidden;
+  overflow-wrap: break-word;
+}
+
+.card-block{
+     word-wrap: break-word;
+}
+.card-text {
+  overflow-wrap: break-word;
+  // word-wrap: break-word;
+}
